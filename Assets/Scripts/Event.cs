@@ -23,15 +23,44 @@ public class Event : MonoBehaviour
     //Added for baseball
     bool strike = false;
     List<GameObject> collisions = new List<GameObject>();
+    float height;
+    float width;
+    float t;
+    float wait = 1;
+
+    //Runs before update
+    private void Awake() {
+        height =  GetComponent<Camera>().orthographicSize;
+        width  = height * GetComponent<Camera>().aspect;
+        t = Time.time;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (change) {
+        if (Input.GetMouseButtonDown(0)) {
             //Calculate score by seeing if it falls within the square for strike zone
+            //x is width, y is height
+            x = Input.mousePosition.x;
+            y = Input.mousePosition.y;
+            print(x);
+            print(Screen.width);
+            print(width);
+            print(height);
+            //Normalizing the values of x and y based on the size and aspect ratio of the camera
+            x/=Screen.width;
+            y/=Screen.height;
+            x*=width * 2; 
+            y*=height * 2;
+            x-=width;
+            y-=height;
+
             hit.x = x;
             hit.y = y;
-            if (x>-0.5 & x<0.5 & y>-0.5 & y<0.5){
+            
+            print(x);
+            print(y);
+            if (x>=-1.7 & x<=1.76 & y>=-1.51 & y<=1.59){
                 player.text = "Strike";
                 P2score+=1;
                 score2.text = P2score.ToString();
@@ -96,7 +125,7 @@ public class Event : MonoBehaviour
             change = false;
         }*/
     }
-
+    /*Stuff for sensor and dartboard
     int Score(double score){
         if (score<.25){
             return 10;
@@ -121,7 +150,7 @@ public class Event : MonoBehaviour
         } else {
             return 0;
         } 
-    }
+    }*/
 
     //Gives an x, y coordinate and tells script that a change has occured
     public void set(Vector2 points){
