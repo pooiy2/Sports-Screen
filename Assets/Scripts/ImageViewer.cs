@@ -12,7 +12,7 @@ public class ImageViewer : MonoBehaviour
     public RawImage mRawDepth;
 
     
-
+    //Gets color camera and depth camera from kinect
 
     // Update is called once per frame
     void Update()

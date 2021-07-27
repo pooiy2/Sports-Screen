@@ -20,10 +20,53 @@ public class Event : MonoBehaviour
     public GameObject prefab1;
     public bool change = false;
 
+    //Added for baseball
+    bool strike = false;
+    List<GameObject> collisions = new List<GameObject>();
+
     // Update is called once per frame
     void Update()
     {
-        
+        if (change) {
+            //Calculate score by seeing if it falls within the square for strike zone
+            hit.x = x;
+            hit.y = y;
+            if (x>-0.5 & x<0.5 & y>-0.5 & y<0.5){
+                player.text = "Strike";
+                P2score+=1;
+                score2.text = P2score.ToString();
+                collisions.Add(Instantiate(prefab1,
+                    hit,
+                    Quaternion.identity));
+            } else {
+                player.text = "Ball";
+                P1score+=1;
+                score1.text = P1score.ToString();
+                collisions.Add(Instantiate(prefab,
+                    hit,
+                    Quaternion.identity));
+            }
+            if (P1score>=4){
+                player.text = "Walk";
+                foreach (GameObject mark in collisions){
+                    Destroy(mark);
+                }
+                P2score = 0;
+                P1score = 0;
+                score2.text = P2score.ToString();
+                score1.text = P1score.ToString();
+            } else if (P2score>=3){
+                player.text = "Strikeout";
+                foreach (GameObject mark in collisions){
+                    Destroy(mark);
+                }
+                P2score = 0;
+                P1score = 0;
+                score2.text = P2score.ToString();
+                score1.text = P1score.ToString();
+            }
+        }
+        /*For dartboard
         if (change) {
             //Calculate score using distance from center
             double s = Math.Pow(Math.Pow(x, 2) + Math.Pow(y, 2), 0.5);
@@ -51,7 +94,7 @@ public class Event : MonoBehaviour
                 player.text = "Player 1";
             }
             change = false;
-        }
+        }*/
     }
 
     int Score(double score){
@@ -80,6 +123,7 @@ public class Event : MonoBehaviour
         } 
     }
 
+    //Gives an x, y coordinate and tells script that a change has occured
     public void set(Vector2 points){
         //print(GetComponent<Camera>().orthographicSize);
         float size = GetComponent<Camera>().orthographicSize;

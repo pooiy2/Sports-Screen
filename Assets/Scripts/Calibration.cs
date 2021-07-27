@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Windows.Kinect;
 
+
+//TODO: Redo entire calibration using fiducial marker
+
+
 public class Calibration : MonoBehaviour
 {
     //Pass Ins
@@ -32,6 +36,7 @@ public class Calibration : MonoBehaviour
     {
         corners = new List<int>();
         square = TopLeft.GetComponent<RawImage>();
+        ChangeColor(Color.black); //Change the color of the screen to black
     }
 
     // Update is called once per frame
